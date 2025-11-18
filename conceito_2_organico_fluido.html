@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conceito 2 - Ondas Orgânicas</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .canvas {
+            position: relative;
+            width: 900px;
+            height: 900px;
+        }
+        
+        /* Ondas de fundo */
+        .wave {
+            position: absolute;
+            width: 100%;
+            opacity: 0.15;
+            animation: waveFlow 8s ease-in-out infinite;
+        }
+        
+        .wave-1 {
+            top: 10%;
+            animation-delay: 0s;
+        }
+        
+        .wave-2 {
+            top: 40%;
+            animation-delay: -2s;
+        }
+        
+        .wave-3 {
+            top: 70%;
+            animation-delay: -4s;
+        }
+        
+        @keyframes waveFlow {
+            0%, 100% { 
+                transform: translateX(-10%) scale(1);
+                opacity: 0.1;
+            }
+            50% { 
+                transform: translateX(10%) scale(1.05);
+                opacity: 0.2;
+            }
+        }
+        
+        /* Figura central fluida */
+        .fluid-figure {
+            position: absolute;
+            width: 400px;
+            height: 700px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Formas orgânicas sobrepostas */
+        .organic-shape {
+            position: absolute;
+            filter: blur(0.5px);
+            mix-blend-mode: screen;
+        }
+        
+        /* Cabeça/Pescoço */
+        .shape-head {
+            width: 150px;
+            height: 200px;
+            background: radial-gradient(ellipse at 30% 30%, 
+                        #d4af37 0%, 
+                        #c4a137 50%,
+                        #8c7853 100%);
+            border-radius: 45% 55% 50% 50%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 30px 80px rgba(212, 175, 55, 0.5);
+            animation: shapeBreath 4s ease-in-out infinite;
+        }
+        
+        @keyframes shapeBreath {
+            0%, 100% { 
+                transform: translateX(-50%) scale(1);
+                border-radius: 45% 55% 50% 50%;
+            }
+            50% { 
+                transform: translateX(-50%) scale(1.02);
+                border-radius: 50% 50% 45% 55%;
+            }
+        }
+        
+        /* Ombros fluidos */
+        .shape-shoulders {
+            width: 320px;
+            height: 150px;
+            background: radial-gradient(ellipse at 50% 30%, 
+                        #d4af37 0%, 
+                        #b8941f 60%,
+                        #8c7853 100%);
+            border-radius: 50% 50% 40% 40%;
+            top: 180px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 
+                inset 0 -20px 50px rgba(0, 0, 0, 0.2),
+                0 40px 80px rgba(212, 175, 55, 0.4);
+            animation: shoulderWave 5s ease-in-out infinite;
+        }
+        
+        @keyframes shoulderWave {
+            0%, 100% { 
+                border-radius: 50% 50% 40% 40%;
+            }
+            50% { 
+                border-radius: 45% 55% 35% 45%;
+            }
+        }
+        
+        /* Torso */
+        .shape-torso {
+            width: 240px;
+            height: 280px;
+            background: radial-gradient(ellipse at 40% 30%, 
+                        #d4af37 0%, 
+                        #c4a137 40%,
+                        #b8941f 70%,
+                        #8c7853 100%);
+            border-radius: 40% 40% 45% 45%;
+            top: 300px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 
+                inset -30px 0 60px rgba(0, 0, 0, 0.15),
+                inset 30px 0 60px rgba(255, 255, 255, 0.1),
+                0 50px 100px rgba(212, 175, 55, 0.5);
+            animation: torsoFlow 6s ease-in-out infinite;
+        }
+        
+        @keyframes torsoFlow {
+            0%, 100% { 
+                border-radius: 40% 40% 45% 45%;
+                transform: translateX(-50%) rotate(0deg);
+            }
+            50% { 
+                border-radius: 45% 35% 50% 40%;
+                transform: translateX(-50%) rotate(1deg);
+            }
+        }
+        
+        /* Quadril */
+        .shape-hips {
+            width: 280px;
+            height: 180px;
+            background: radial-gradient(ellipse at 50% 40%, 
+                        #b8941f 0%, 
+                        #8c7853 60%,
+                        #6e5f42 100%);
+            border-radius: 50% 50% 45% 45%;
+            top: 540px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 
+                inset 0 30px 60px rgba(0, 0, 0, 0.2),
+                0 50px 100px rgba(140, 120, 83, 0.5);
+            animation: hipSway 5s ease-in-out infinite;
+        }
+        
+        @keyframes hipSway {
+            0%, 100% { 
+                border-radius: 50% 50% 45% 45%;
+            }
+            50% { 
+                border-radius: 45% 55% 50% 40%;
+            }
+        }
+        
+        /* Elementos de luz ambiente */
+        .ambient-light {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: ambientPulse 6s ease-in-out infinite;
+        }
+        
+        .light-1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.2), transparent);
+            top: 20%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+        
+        .light-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(47, 93, 80, 0.15), transparent);
+            bottom: 10%;
+            right: -15%;
+            animation-delay: -3s;
+        }
+        
+        .light-3 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15), transparent);
+            top: 50%;
+            right: -5%;
+            animation-delay: -1.5s;
+        }
+        
+        @keyframes ambientPulse {
+            0%, 100% { 
+                transform: scale(1) translateY(0);
+                opacity: 0.4;
+            }
+            50% { 
+                transform: scale(1.2) translateY(-20px);
+                opacity: 0.7;
+            }
+        }
+        
+        /* Círculos decorativos */
+        .circle-deco {
+            position: absolute;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 50%;
+            animation: circleSpin 15s linear infinite;
+        }
+        
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .circle-2 {
+            width: 250px;
+            height: 250px;
+            bottom: 20%;
+            right: 15%;
+            animation-delay: -7s;
+        }
+        
+        .circle-3 {
+            width: 180px;
+            height: 180px;
+            top: 60%;
+            left: 5%;
+            animation-delay: -3s;
+        }
+        
+        @keyframes circleSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Partículas brilhantes */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #d4af37;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+            animation: sparkleFloat 5s ease-in-out infinite;
+        }
+        
+        .sparkle:nth-child(1) {
+            top: 15%;
+            left: 25%;
+            animation-delay: 0s;
+        }
+        
+        .sparkle:nth-child(2) {
+            top: 35%;
+            right: 20%;
+            animation-delay: 1s;
+        }
+        
+        .sparkle:nth-child(3) {
+            bottom: 25%;
+            left: 30%;
+            animation-delay: 2s;
+        }
+        
+        .sparkle:nth-child(4) {
+            top: 60%;
+            right: 25%;
+            animation-delay: 1.5s;
+        }
+        
+        .sparkle:nth-child(5) {
+            top: 45%;
+            left: 15%;
+            animation-delay: 0.5s;
+        }
+        
+        .sparkle:nth-child(6) {
+            bottom: 35%;
+            right: 30%;
+            animation-delay: 2.5s;
+        }
+        
+        @keyframes sparkleFloat {
+            0%, 100% { 
+                transform: translateY(0) scale(1);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translateY(-60px) scale(1.5);
+                opacity: 1;
+            }
+        }
+        
+        /* Linhas fluidas */
+        .flowing-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                        transparent, 
+                        rgba(212, 175, 55, 0.4), 
+                        transparent);
+            animation: lineFlow 4s ease-in-out infinite;
+        }
+        
+        .line-1 {
+            width: 300px;
+            top: 30%;
+            left: 0;
+            animation-delay: 0s;
+        }
+        
+        .line-2 {
+            width: 250px;
+            top: 55%;
+            right: 0;
+            animation-delay: 1s;
+        }
+        
+        .line-3 {
+            width: 200px;
+            bottom: 25%;
+            left: 0;
+            animation-delay: 2s;
+        }
+        
+        @keyframes lineFlow {
+            0%, 100% { 
+                transform: translateX(0) scaleX(1);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translateX(100px) scaleX(1.2);
+                opacity: 0.6;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas">
+        <!-- Ondas de fundo -->
+        <svg class="wave wave-1" viewBox="0 0 1200 200">
+            <path d="M0,100 Q300,50 600,100 T1200,100" fill="none" stroke="rgba(212, 175, 55, 0.3)" stroke-width="2"/>
+        </svg>
+        <svg class="wave wave-2" viewBox="0 0 1200 200">
+            <path d="M0,100 Q300,150 600,100 T1200,100" fill="none" stroke="rgba(212, 175, 55, 0.3)" stroke-width="2"/>
+        </svg>
+        <svg class="wave wave-3" viewBox="0 0 1200 200">
+            <path d="M0,100 Q300,70 600,100 T1200,100" fill="none" stroke="rgba(212, 175, 55, 0.3)" stroke-width="2"/>
+        </svg>
+        
+        <!-- Luzes ambiente -->
+        <div class="ambient-light light-1"></div>
+        <div class="ambient-light light-2"></div>
+        <div class="ambient-light light-3"></div>
+        
+        <!-- Círculos decorativos -->
+        <div class="circle-deco circle-1"></div>
+        <div class="circle-deco circle-2"></div>
+        <div class="circle-deco circle-3"></div>
+        
+        <!-- Linhas fluidas -->
+        <div class="flowing-line line-1"></div>
+        <div class="flowing-line line-2"></div>
+        <div class="flowing-line line-3"></div>
+        
+        <!-- Partículas -->
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        
+        <!-- Figura fluida -->
+        <div class="fluid-figure">
+            <div class="organic-shape shape-head"></div>
+            <div class="organic-shape shape-shoulders"></div>
+            <div class="organic-shape shape-torso"></div>
+            <div class="organic-shape shape-hips"></div>
+        </div>
+    </div>
+</body>
+</html>

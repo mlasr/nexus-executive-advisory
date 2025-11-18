@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conceito 1 - Silhueta Fluida</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f1e 100%);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .scene {
+            position: relative;
+            width: 800px;
+            height: 900px;
+        }
+        
+        /* Luz de fundo dramática */
+        .spotlight {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, 
+                        rgba(212, 175, 55, 0.3) 0%, 
+                        rgba(212, 175, 55, 0.1) 30%,
+                        transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+            filter: blur(40px);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.8;
+            }
+        }
+        
+        /* Silhueta principal */
+        .silhouette {
+            position: absolute;
+            width: 350px;
+            height: 700px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+        
+        /* Cabeça/Pescoço */
+        .head {
+            position: absolute;
+            width: 120px;
+            height: 160px;
+            background: linear-gradient(135deg, #d4af37 0%, #8c7853 100%);
+            border-radius: 50% 50% 45% 45%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 
+                inset -20px -20px 40px rgba(0, 0, 0, 0.3),
+                0 20px 60px rgba(212, 175, 55, 0.4);
+            animation: breathe 3s ease-in-out infinite;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+        
+        /* Cabelo fluido */
+        .hair {
+            position: absolute;
+            width: 180px;
+            height: 200px;
+            top: -20px;
+            left: -30px;
+            background: linear-gradient(120deg, 
+                        rgba(45, 62, 80, 0.9) 0%, 
+                        rgba(26, 38, 50, 0.7) 100%);
+            border-radius: 50% 50% 40% 40%;
+            animation: hairFlow 5s ease-in-out infinite;
+            filter: blur(1px);
+        }
+        
+        @keyframes hairFlow {
+            0%, 100% { 
+                transform: translateX(0) rotate(0deg);
+                border-radius: 50% 50% 40% 40%;
+            }
+            50% { 
+                transform: translateX(10px) rotate(2deg);
+                border-radius: 45% 55% 35% 45%;
+            }
+        }
+        
+        /* Ombros */
+        .shoulders {
+            position: absolute;
+            width: 280px;
+            height: 120px;
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            border-radius: 50% 50% 0 0;
+            top: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 
+                inset 0 -30px 50px rgba(0, 0, 0, 0.3),
+                0 20px 40px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* Torso */
+        .torso {
+            position: absolute;
+            width: 200px;
+            height: 350px;
+            background: linear-gradient(180deg, 
+                        #d4af37 0%, 
+                        #c4a137 50%,
+                        #b8941f 100%);
+            top: 240px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 40px 40px 60px 60px;
+            box-shadow: 
+                inset -15px 0 40px rgba(0, 0, 0, 0.2),
+                inset 15px 0 40px rgba(255, 255, 255, 0.1),
+                0 30px 60px rgba(212, 175, 55, 0.4);
+        }
+        
+        /* Cintura */
+        .waist {
+            position: absolute;
+            width: 140px;
+            height: 80px;
+            background: linear-gradient(180deg, 
+                        #b8941f 0%, 
+                        #8c7853 100%);
+            top: 540px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 30px;
+            box-shadow: 
+                inset 0 10px 30px rgba(0, 0, 0, 0.3),
+                0 20px 40px rgba(140, 120, 83, 0.3);
+        }
+        
+        /* Quadril */
+        .hips {
+            position: absolute;
+            width: 220px;
+            height: 100px;
+            background: linear-gradient(180deg, 
+                        #8c7853 0%, 
+                        #6e5f42 100%);
+            top: 600px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50% 50% 40% 40%;
+            box-shadow: 
+                inset 0 20px 40px rgba(0, 0, 0, 0.3),
+                0 30px 50px rgba(110, 95, 66, 0.4);
+        }
+        
+        /* Partículas de luz flutuantes */
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #d4af37, transparent);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
+            filter: blur(2px);
+        }
+        
+        .particle:nth-child(1) { 
+            top: 20%; 
+            left: 20%; 
+            animation-delay: 0s;
+            animation-duration: 5s;
+        }
+        .particle:nth-child(2) { 
+            top: 40%; 
+            left: 80%; 
+            animation-delay: 1s;
+            animation-duration: 7s;
+        }
+        .particle:nth-child(3) { 
+            top: 60%; 
+            left: 15%; 
+            animation-delay: 2s;
+            animation-duration: 6s;
+        }
+        .particle:nth-child(4) { 
+            top: 80%; 
+            left: 70%; 
+            animation-delay: 1.5s;
+            animation-duration: 5.5s;
+        }
+        .particle:nth-child(5) { 
+            top: 30%; 
+            left: 50%; 
+            animation-delay: 0.5s;
+            animation-duration: 6.5s;
+        }
+        
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0) translateX(0);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translateY(-50px) translateX(30px);
+                opacity: 0.8;
+            }
+        }
+        
+        /* Elementos geométricos decorativos */
+        .geometry {
+            position: absolute;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            animation: rotate 20s linear infinite;
+        }
+        
+        .geo-1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 60%;
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+        
+        .geo-2 {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            left: 10%;
+            transform: rotate(45deg);
+            animation-delay: -5s;
+        }
+        
+        .geo-3 {
+            width: 150px;
+            height: 150px;
+            top: 75%;
+            left: 70%;
+            border-radius: 50%;
+            animation-delay: -10s;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Linhas decorativas */
+        .line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                        transparent, 
+                        rgba(212, 175, 55, 0.3), 
+                        transparent);
+            animation: slideIn 3s ease-in-out infinite;
+        }
+        
+        .line-1 {
+            width: 200px;
+            top: 25%;
+            left: -200px;
+            animation-delay: 0s;
+        }
+        
+        .line-2 {
+            width: 150px;
+            top: 50%;
+            right: -150px;
+            animation-delay: 1s;
+        }
+        
+        .line-3 {
+            width: 180px;
+            top: 75%;
+            left: -180px;
+            animation-delay: 2s;
+        }
+        
+        @keyframes slideIn {
+            0% { transform: translateX(0); opacity: 0; }
+            50% { transform: translateX(400px); opacity: 1; }
+            100% { transform: translateX(800px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <!-- Luz de fundo -->
+        <div class="spotlight"></div>
+        
+        <!-- Partículas -->
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        
+        <!-- Geometrias -->
+        <div class="geometry geo-1"></div>
+        <div class="geometry geo-2"></div>
+        <div class="geometry geo-3"></div>
+        
+        <!-- Linhas -->
+        <div class="line line-1"></div>
+        <div class="line line-2"></div>
+        <div class="line line-3"></div>
+        
+        <!-- Silhueta -->
+        <div class="silhouette">
+            <div class="head">
+                <div class="hair"></div>
+            </div>
+            <div class="shoulders"></div>
+            <div class="torso"></div>
+            <div class="waist"></div>
+            <div class="hips"></div>
+        </div>
+    </div>
+</body>
+</html>

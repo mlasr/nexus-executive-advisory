@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Premium Experience - Arte & Sofisticação</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;600;700&family=Montserrat:wght@200;300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #0a0a0a;
+            color: #f8f6f0;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: radial-gradient(ellipse at top, #1a1a2e 0%, #0a0a0a 100%);
+        }
+        
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(47, 93, 80, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 30%);
+            animation: drift 20s ease-in-out infinite;
+        }
+        
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(3deg); }
+            66% { transform: translate(-20px, 20px) rotate(-3deg); }
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            position: relative;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 100px;
+            position: relative;
+        }
+        
+        .logo-container {
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            font-weight: 300;
+            letter-spacing: 12px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4e4a6 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+        }
+        
+        .tagline {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            letter-spacing: 6px;
+            color: rgba(248, 246, 240, 0.7);
+            margin-top: 35px;
+            font-weight: 200;
+            text-transform: uppercase;
+            animation: fadeIn 1.5s ease-out 0.3s backwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Intro Section */
+        .intro {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(47, 93, 80, 0.05) 100%);
+            padding: 60px;
+            border-radius: 30px;
+            margin-bottom: 100px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.5s backwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .intro::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .intro h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: #d4af37;
+            margin-bottom: 30px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            position: relative;
+        }
+        
+        .intro p {
+            font-size: 16px;
+            line-height: 2;
+            color: rgba(248, 246, 240, 0.9);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px;
+            margin-bottom: 100px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(26, 38, 50, 0.6) 0%, rgba(45, 62, 80, 0.4) 100%);
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            cursor: pointer;
+            backdrop-filter: blur(20px);
+            animation: fadeInScale 0.8s ease-out backwards;
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .card:nth-child(1) { animation-delay: 0.6s; }
+        .card:nth-child(2) { animation-delay: 0.7s; }
+        .card:nth-child(3) { animation-delay: 0.8s; }
+        .card:nth-child(4) { animation-delay: 0.9s; }
+        .card:nth-child(5) { animation-delay: 1s; }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                        rgba(212, 175, 55, 0.15) 0%, 
+                        transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+        }
+        
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.5),
+                0 0 80px rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+        
+        .card-preview {
+            width: 100%;
+            height: 350px;
+            background: #f8f6f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-preview iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            pointer-events: none;
+            transform: scale(0.7);
+            transform-origin: top center;
+        }
+        
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .card:hover .card-overlay {
+            opacity: 1;
+        }
+        
+        .card-content {
+            padding: 40px;
+            position: relative;
+        }
+        
+        .card-number {
+            position: absolute;
+            top: -20px;
+            right: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 120px;
+            font-weight: 300;
+            color: rgba(212, 175, 55, 0.08);
+            line-height: 1;
+            pointer-events: none;
+        }
+        
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #d4af37;
+            margin-bottom: 12px;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+        
+        .card-subtitle {
+            font-size: 13px;
+            letter-spacing: 3px;
+            color: rgba(248, 246, 240, 0.6);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+        
+        .card-description {
+            font-size: 14px;
+            line-height: 1.9;
+            color: rgba(248, 246, 240, 0.85);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .tag {
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            padding: 8px 18px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 25px;
+            color: #d4af37;
+            font-weight: 300;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover .tag {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+        
+        .btn-view {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: #0a0a0a;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 13px;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-view::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        
+        .btn-view:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-view:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+        
+        .btn-view span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-view::after {
+            content: '→';
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-view:hover::after {
+            transform: translateX(5px);
+        }
+        
+        /* Principles Section */
+        .principles {
+            background: linear-gradient(135deg, rgba(47, 93, 80, 0.1) 0%, rgba(26, 77, 62, 0.1) 100%);
+            padding: 60px;
+            border-radius: 30px;
+            margin: 80px 0;
+            border: 1px solid rgba(47, 93, 80, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .principles h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: #2f5d50;
+            margin-bottom: 40px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+        
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .principle-item {
+            padding: 25px;
+            background: rgba(248, 246, 240, 0.03);
+            border-radius: 15px;
+            border-left: 3px solid #2f5d50;
+            transition: all 0.3s ease;
+        }
+        
+        .principle-item:hover {
+            background: rgba(47, 93, 80, 0.1);
+            transform: translateX(10px);
+        }
+        
+        .principle-item h4 {
+            font-size: 16px;
+            color: #2f5d50;
+            margin-bottom: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .principle-item p {
+            font-size: 13px;
+            line-height: 1.8;
+            color: rgba(248, 246, 240, 0.8);
+            font-weight: 300;
+        }
+        
+        /* Footer */
+        footer {
+            margin-top: 120px;
+            text-align: center;
+            padding: 60px 0 40px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+        }
+        
+        .footer-motto {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            letter-spacing: 4px;
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+        
+        .footer-disclaimer {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: rgba(248, 246, 240, 0.5);
+            font-weight: 200;
+        }
+        
+        /* Scroll Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 48px;
+                letter-spacing: 8px;
+            }
+            
+            .tagline {
+                font-size: 14px;
+                letter-spacing: 4px;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .intro, .principles {
+                padding: 40px 30px;
+            }
+            
+            .card-content {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <h1 class="logo">Nexus</h1>
+            </div>
+            <p class="tagline">Curadoria Humana · Presença Estratégica</p>
+        </header>
+        
+        <div class="intro">
+            <h2>Filosofia Visual</h2>
+            <p>
+                Estas composições artísticas transcendem a representação convencional, evocando elegância 
+                e sofisticação através de linguagens visuais cuidadosamente orquestradas. Do minimalismo 
+                contemplativo ao art déco opulento, cada conceito abraça a abstração como forma de elevar 
+                a experiência sensorial, priorizando metáforas visuais que sussurram refinamento intelectual 
+                e presença cultural distintiva.
+            </p>
+        </div>
+        
+        <div class="principles">
+            <h3>Princípios de Design</h3>
+            <div class="principles-grid">
+                <div class="principle-item">
+                    <h4>Abstração Sensorial</h4>
+                    <p>Evocação através de formas, não representação literal</p>
+                </div>
+                <div class="principle-item">
+                    <h4>Elegância Tátil</h4>
+                    <p>Paleta refinada que convida ao toque visual</p>
+                </div>
+                <div class="principle-item">
+                    <h4>Simbolismo Cultural</h4>
+                    <p>Elementos que narram histórias sem palavras</p>
+                </div>
+                <div class="principle-item">
+                    <h4>Composição Fluida</h4>
+                    <p>Movimento e equilíbrio em harmonia perfeita</p>
+                </div>
+                <div class="principle-item">
+                    <h4>Sofisticação Atemporal</h4>
+                    <p>Referências clássicas em contextos contemporâneos</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="gallery">
+            <div class="card">
+                <div class="card-preview">
+                    <div class="card-overlay"></div>
+                    <iframe src="conceito_1_silhueta.html" scrolling="no"></iframe>
+                </div>
+                <div class="card-content">
+                    <div class="card-number">01</div>
+                    <h3 class="card-title">Silhueta Minimalista</h3>
+                    <p class="card-subtitle">Essência · Simplicidade · Presença</p>
+                    <p class="card-description">
+                        Composição etérea onde menos é infinitamente mais. Silhuetas em negativo dançam 
+                        com elementos geométricos sutis, criando uma narrativa visual que respira elegância 
+                        através do espaço vazio e da contenção deliberada.
+                    </p>
+                    <div class="card-tags">
+                        <span class="tag">Minimalismo</span>
+                        <span class="tag">Elegância</span>
+                        <span class="tag">Geometria</span>
+                    </div>
+                    <a href="conceito_1_silhueta.html" target="_blank" class="btn-view">
+                        <span>Explorar Conceito</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-preview">
+                    <div class="card-overlay"></div>
+                    <iframe src="conceito_2_geometrico.html" scrolling="no"></iframe>
+                </div>
+                <div class="card-content">
+                    <div class="card-number">02</div>
+                    <h3 class="card-title">Editorial Geométrico</h3>
+                    <p class="card-subtitle">Estrutura · Sofisticação · Arte</p>
+                    <p class="card-description">
+                        Figura construída exclusivamente através da pureza geométrica - círculos concêntricos, 
+                        triângulos precisos e símbolos culturais entrelaçados. Uma celebração da sofisticação 
+                        através da abstração angular e composição matemática.
+                    </p>
+                    <div class="card-tags">
+                        <span class="tag">Editorial</span>
+                        <span class="tag">Formas Puras</span>
+                        <span class="tag">Cultura</span>
+                    </div>
+                    <a href="conceito_2_geometrico.html" target="_blank" class="btn-view">
+                        <span>Explorar Conceito</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-preview">
+                    <div class="card-overlay"></div>
+                    <iframe src="conceito_3_artdeco.html" scrolling="no"></iframe>
+                </div>
+                <div class="card-content">
+                    <div class="card-number">03</div>
+                    <h3 class="card-title">Art Déco Sensual</h3>
+                    <p class="card-subtitle">Glamour · Opulência · Atemporalidade</p>
+                    <p class="card-description">
+                        Inspiração dos anos dourados - camadas sobrepostas, padrões em leque e cascatas 
+                        de dourado. Uma ode ao glamour que transcende décadas, evocando noites de champanhe 
+                        e conversas iluminadas sob lustres de cristal.
+                    </p>
+                    <div class="card-tags">
+                        <span class="tag">Art Déco</span>
+                        <span class="tag">Luxo</span>
+                        <span class="tag">Glamour</span>
+                    </div>
+                    <a href="conceito_3_artdeco.html" target="_blank" class="btn-view">
+                        <span>Explorar Conceito</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-preview">
+                    <div class="card-overlay"></div>
+                    <iframe src="conceito_4_networking.html" scrolling="no"></iframe>
+                </div>
+                <div class="card-content">
+                    <div class="card-number">04</div>
+                    <h3 class="card-title">Networking Cultural</h3>
+                    <p class="card-subtitle">Conexão · Diálogo · Sinergia</p>
+                    <p class="card-description">
+                        Múltiplas figuras em ballet social, conectadas por fios invisíveis de inteligência 
+                        compartilhada. Representa eventos culturais onde conversas fluem como vinho fino 
+                        e conexões se formam através de gestos sutis e olhares compreensivos.
+                    </p>
+                    <div class="card-tags">
+                        <span class="tag">Conexões</span>
+                        <span class="tag">Eventos</span>
+                        <span class="tag">Networking</span>
+                    </div>
+                    <a href="conceito_4_networking.html" target="_blank" class="btn-view">
+                        <span>Explorar Conceito</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-preview">
+                    <div class="card-overlay"></div>
+                    <iframe src="conceito_5_zen.html" scrolling="no"></iframe>
+                </div>
+                <div class="card-content">
+                    <div class="card-number">05</div>
+                    <h3 class="card-title">Minimalismo Zen</h3>
+                    <p class="card-subtitle">Serenidade · Equilíbrio · Contemplação</p>
+                    <p class="card-description">
+                        Inspirado na estética japonesa milenar - figura em origami, círculos zen e bambus 
+                        abstratos. Evoca a quietude poderosa de jardins de pedra e cerimônias de chá, 
+                        onde cada gesto carrega significado profundo e presença intencional.
+                    </p>
+                    <div class="card-tags">
+                        <span class="tag">Zen</span>
+                        <span class="tag">Origami</span>
+                        <span class="tag">Serenidade</span>
+                    </div>
+                    <a href="conceito_5_zen.html" target="_blank" class="btn-view">
+                        <span>Explorar Conceito</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p class="footer-motto">Presença · Elegância · Cultura · Distinção</p>
+            <p class="footer-disclaimer">
+                Todas as representações são exclusivamente artísticas e estilizadas
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Mouse tracking for cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                card.style.setProperty('--mouse-x', `${x}%`);
+                card.style.setProperty('--mouse-y', `${y}%`);
+            });
+        });
+        
+        // Smooth reveal on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.card, .intro, .principles').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conceito 3 - Art Déco Luxuoso</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1520 50%, #0f0f1e 100%);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .stage {
+            position: relative;
+            width: 900px;
+            height: 1000px;
+        }
+        
+        /* Cortina de fundo art déco */
+        .backdrop {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(212, 175, 55, 0.03) 0px,
+                    transparent 2px,
+                    transparent 40px,
+                    rgba(212, 175, 55, 0.03) 42px
+                );
+            animation: shimmer 10s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Elementos art déco geométricos */
+        .deco-element {
+            position: absolute;
+            opacity: 0.2;
+        }
+        
+        /* Leque superior */
+        .fan-top {
+            width: 400px;
+            height: 300px;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: 
+                conic-gradient(from 180deg at 50% 100%, 
+                    rgba(212, 175, 55, 0.2) 0deg,
+                    transparent 60deg,
+                    rgba(212, 175, 55, 0.2) 120deg,
+                    transparent 180deg,
+                    rgba(212, 175, 55, 0.2) 240deg,
+                    transparent 300deg,
+                    rgba(212, 175, 55, 0.2) 360deg
+                );
+            border-radius: 50% 50% 0 0;
+            animation: fanSpread 8s ease-in-out infinite;
+        }
+        
+        @keyframes fanSpread {
+            0%, 100% { transform: translateX(-50%) scaleY(1); }
+            50% { transform: translateX(-50%) scaleY(1.1); }
+        }
+        
+        /* Figura art déco */
+        .deco-figure {
+            position: absolute;
+            width: 380px;
+            height: 750px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Cabeça com adorno */
+        .deco-head {
+            position: absolute;
+            width: 140px;
+            height: 180px;
+            background: linear-gradient(135deg, 
+                        #d4af37 0%, 
+                        #f4e4a6 50%,
+                        #d4af37 100%);
+            border-radius: 50% 50% 48% 48%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 
+                inset -15px -15px 30px rgba(0, 0, 0, 0.2),
+                0 30px 60px rgba(212, 175, 55, 0.6),
+                0 0 100px rgba(244, 228, 166, 0.4);
+            overflow: hidden;
+        }
+        
+        /* Adorno de cabeça */
+        .headpiece {
+            position: absolute;
+            width: 180px;
+            height: 120px;
+            top: -30px;
+            left: -20px;
+            background: 
+                radial-gradient(ellipse at 50% 100%, 
+                    rgba(212, 175, 55, 0.9) 0%,
+                    rgba(140, 120, 83, 0.7) 50%,
+                    transparent 70%);
+            border-radius: 50% 50% 0 0;
+            animation: headpieceGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes headpieceGlow {
+            0%, 100% { 
+                filter: brightness(1);
+                transform: scale(1);
+            }
+            50% { 
+                filter: brightness(1.2);
+                transform: scale(1.05);
+            }
+        }
+        
+        /* Penas decorativas */
+        .feather {
+            position: absolute;
+            width: 60px;
+            height: 150px;
+            background: linear-gradient(180deg, 
+                        rgba(212, 175, 55, 0.8) 0%,
+                        rgba(212, 175, 55, 0.4) 50%,
+                        transparent 100%);
+            border-radius: 50% 50% 0 0;
+            animation: featherSway 4s ease-in-out infinite;
+        }
+        
+        .feather-1 {
+            top: -80px;
+            left: 30px;
+            transform: rotate(-20deg);
+            animation-delay: 0s;
+        }
+        
+        .feather-2 {
+            top: -90px;
+            left: 60px;
+            transform: rotate(-5deg);
+            animation-delay: 0.5s;
+        }
+        
+        .feather-3 {
+            top: -80px;
+            left: 90px;
+            transform: rotate(20deg);
+            animation-delay: 1s;
+        }
+        
+        @keyframes featherSway {
+            0%, 100% { transform: rotate(var(--rotation, 0deg)) translateY(0); }
+            50% { transform: rotate(calc(var(--rotation, 0deg) + 5deg)) translateY(-10px); }
+        }
+        
+        /* Colar art déco */
+        .necklace {
+            position: absolute;
+            width: 200px;
+            height: 80px;
+            top: 165px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 0 0 50% 50%;
+            border: 3px solid rgba(212, 175, 55, 0.6);
+            border-top: none;
+            box-shadow: 
+                inset 0 -10px 30px rgba(212, 175, 55, 0.3),
+                0 10px 30px rgba(212, 175, 55, 0.4);
+            animation: necklaceShine 5s ease-in-out infinite;
+        }
+        
+        @keyframes necklaceShine {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+        
+        /* Ombros geométricos */
+        .deco-shoulders {
+            position: absolute;
+            width: 340px;
+            height: 140px;
+            top: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, 
+                        #d4af37 0%, 
+                        #c4a137 30%,
+                        #b8941f 70%,
+                        #8c7853 100%);
+            clip-path: polygon(
+                10% 0%, 90% 0%,
+                100% 50%, 90% 100%,
+                10% 100%, 0% 50%
+            );
+            box-shadow: 
+                inset 0 -20px 40px rgba(0, 0, 0, 0.2),
+                0 30px 60px rgba(212, 175, 55, 0.5);
+            animation: shoulderShift 6s ease-in-out infinite;
+        }
+        
+        @keyframes shoulderShift {
+            0%, 100% { transform: translateX(-50%) scaleX(1); }
+            50% { transform: translateX(-50%) scaleX(1.02); }
+        }
+        
+        /* Vestido art déco em camadas */
+        .dress-layer {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 
+                inset 0 20px 40px rgba(0, 0, 0, 0.15),
+                0 20px 40px rgba(212, 175, 55, 0.3);
+        }
+        
+        .dress-1 {
+            width: 280px;
+            height: 200px;
+            top: 280px;
+            background: linear-gradient(180deg, 
+                        #d4af37 0%, 
+                        #c4a137 100%);
+            border-radius: 40px 40px 0 0;
+            animation: dressFlow1 5s ease-in-out infinite;
+        }
+        
+        @keyframes dressFlow1 {
+            0%, 100% { 
+                width: 280px;
+                border-radius: 40px 40px 0 0;
+            }
+            50% { 
+                width: 290px;
+                border-radius: 35px 35px 0 0;
+            }
+        }
+        
+        .dress-2 {
+            width: 300px;
+            height: 160px;
+            top: 460px;
+            background: linear-gradient(180deg, 
+                        #c4a137 0%, 
+                        #b8941f 100%);
+            clip-path: polygon(
+                5% 0%, 95% 0%,
+                100% 50%, 90% 100%,
+                10% 100%, 0% 50%
+            );
+            animation: dressFlow2 5.5s ease-in-out infinite;
+        }
+        
+        @keyframes dressFlow2 {
+            0%, 100% { width: 300px; }
+            50% { width: 310px; }
+        }
+        
+        .dress-3 {
+            width: 320px;
+            height: 140px;
+            top: 600px;
+            background: linear-gradient(180deg, 
+                        #b8941f 0%, 
+                        #8c7853 100%);
+            clip-path: polygon(
+                10% 0%, 90% 0%,
+                95% 50%, 85% 100%,
+                15% 100%, 5% 50%
+            );
+            animation: dressFlow3 6s ease-in-out infinite;
+        }
+        
+        @keyframes dressFlow3 {
+            0%, 100% { width: 320px; }
+            50% { width: 330px; }
+        }
+        
+        /* Franjas decorativas */
+        .fringe {
+            position: absolute;
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(180deg, 
+                        rgba(212, 175, 55, 0.8),
+                        transparent);
+            animation: fringeSwing 3s ease-in-out infinite;
+        }
+        
+        /* Distribuir franjas */
+        .dress-2::after,
+        .dress-3::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent 0px,
+                    transparent 18px,
+                    rgba(212, 175, 55, 0.6) 19px,
+                    rgba(212, 175, 55, 0.6) 21px
+                );
+            animation: fringeWave 2s ease-in-out infinite;
+        }
+        
+        @keyframes fringeWave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+        
+        /* Raios art déco */
+        .ray {
+            position: absolute;
+            width: 2px;
+            height: 200px;
+            background: linear-gradient(180deg, 
+                        rgba(212, 175, 55, 0.4),
+                        transparent);
+            top: 100px;
+            left: 50%;
+            transform-origin: top center;
+            animation: rayShine 8s ease-in-out infinite;
+        }
+        
+        .ray:nth-child(1) { transform: translateX(-50%) rotate(-30deg); animation-delay: 0s; }
+        .ray:nth-child(2) { transform: translateX(-50%) rotate(-15deg); animation-delay: 0.5s; }
+        .ray:nth-child(3) { transform: translateX(-50%) rotate(0deg); animation-delay: 1s; }
+        .ray:nth-child(4) { transform: translateX(-50%) rotate(15deg); animation-delay: 1.5s; }
+        .ray:nth-child(5) { transform: translateX(-50%) rotate(30deg); animation-delay: 2s; }
+        
+        @keyframes rayShine {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* Partículas douradas */
+        .gold-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #d4af37, transparent);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+            animation: particleRise 6s ease-in-out infinite;
+        }
+        
+        .gold-particle:nth-child(1) { left: 20%; bottom: 10%; animation-delay: 0s; }
+        .gold-particle:nth-child(2) { left: 35%; bottom: 5%; animation-delay: 1s; }
+        .gold-particle:nth-child(3) { left: 50%; bottom: 15%; animation-delay: 2s; }
+        .gold-particle:nth-child(4) { left: 65%; bottom: 8%; animation-delay: 1.5s; }
+        .gold-particle:nth-child(5) { left: 80%; bottom: 12%; animation-delay: 0.5s; }
+        
+        @keyframes particleRise {
+            0% { 
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { 
+                transform: translateY(-400px) scale(0.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stage">
+        <!-- Cortina de fundo -->
+        <div class="backdrop"></div>
+        
+        <!-- Leque art déco superior -->
+        <div class="deco-element fan-top"></div>
+        
+        <!-- Raios -->
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+        
+        <!-- Partículas douradas -->
+        <div class="gold-particle"></div>
+        <div class="gold-particle"></div>
+        <div class="gold-particle"></div>
+        <div class="gold-particle"></div>
+        <div class="gold-particle"></div>
+        
+        <!-- Figura art déco -->
+        <div class="deco-figure">
+            <!-- Cabeça -->
+            <div class="deco-head">
+                <div class="headpiece">
+                    <div class="feather feather-1" style="--rotation: -20deg"></div>
+                    <div class="feather feather-2" style="--rotation: -5deg"></div>
+                    <div class="feather feather-3" style="--rotation: 20deg"></div>
+                </div>
+            </div>
+            
+            <!-- Colar -->
+            <div class="necklace"></div>
+            
+            <!-- Ombros -->
+            <div class="deco-shoulders"></div>
+            
+            <!-- Vestido em camadas -->
+            <div class="dress-layer dress-1"></div>
+            <div class="dress-layer dress-2"></div>
+            <div class="dress-layer dress-3"></div>
+        </div>
+    </div>
+</body>
+</html>

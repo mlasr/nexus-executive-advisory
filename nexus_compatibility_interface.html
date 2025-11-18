@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Compatibility Engine - Assessment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: #f8f6f0;
+            margin-bottom: 50px;
+            padding-top: 30px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: #d4af37;
+        }
+
+        .header .subtitle {
+            font-size: 16px;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #d4af37 0%, #8c7853 100%);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .card {
+            background: rgba(248, 246, 240, 0.95);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .question-section {
+            display: none;
+        }
+
+        .question-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dimension-label {
+            display: inline-block;
+            background: #2f5d50;
+            color: #f8f6f0;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 22px;
+            color: #1a2332;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            font-weight: 400;
+        }
+
+        .question-description {
+            font-size: 14px;
+            color: #4a5568;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .option:hover {
+            border-color: #d4af37;
+            background: #fffef8;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            border-color: #d4af37;
+            background: linear-gradient(135deg, #fffef8 0%, #fff9e6 100%);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .option-radio {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 2px;
+            position: relative;
+        }
+
+        .option.selected .option-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: #d4af37;
+            border-radius: 50%;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a2332;
+            margin-bottom: 5px;
+        }
+
+        .option-desc {
+            font-size: 13px;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .scale-container {
+            margin: 30px 0;
+        }
+
+        .scale {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .scale-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px 10px;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a2332;
+        }
+
+        .scale-option:hover {
+            border-color: #d4af37;
+            background: #fffef8;
+        }
+
+        .scale-option.selected {
+            border-color: #d4af37;
+            background: linear-gradient(135deg, #d4af37 0%, #8c7853 100%);
+            color: #fff;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #4a5568;
+            margin-top: 10px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #8c7853 100%);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .intro-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .intro-section h2 {
+            font-size: 28px;
+            color: #1a2332;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .intro-section p {
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .intro-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a2332;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            font-size: 13px;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .results-section {
+            padding: 40px 20px;
+        }
+
+        .results-section h2 {
+            font-size: 28px;
+            color: #1a2332;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .profile-summary {
+            background: linear-gradient(135deg, #2f5d50 0%, #1a4d3e 100%);
+            color: #f8f6f0;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .profile-summary h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #d4af37;
+        }
+
+        .dimension-score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .dimension-score:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .dimension-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .dimension-value {
+            font-size: 16px;
+            color: #d4af37;
+        }
+
+        .matching-status {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #fffef8 0%, #fff9e6 100%);
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(212, 175, 55, 0.2);
+            border-top-color: #d4af37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #d4af37 0%, #8c7853 100%);
+            border-radius: 10px;
+            color: #fff;
+        }
+
+        .cta-section h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+        .cta-section p {
+            font-size: 14px;
+            margin-bottom: 25px;
+            opacity: 0.95;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>NEXUS COMPATIBILITY ENGINE</h1>
+            <div class="subtitle">Matching Científico para Curadoria Executiva</div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- Intro Section -->
+        <div class="card" id="introCard">
+            <div class="intro-section">
+                <h2>Bem-vindo ao Assessment de Compatibilidade</h2>
+                <p>Em vez de navegar por perfis genéricos, nosso sistema científico identifica os consultores mais compatíveis com seu estilo comportamental e contexto específico.</p>
+                
+                <div class="intro-features">
+                    <div class="feature">
+                        <div class="feature-icon">🧠</div>
+                        <div class="feature-title">47 Dimensões</div>
+                        <div class="feature-desc">Análise multidimensional de compatibilidade comportamental</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-title">93% Satisfação</div>
+                        <div class="feature-desc">Taxa de sucesso comprovada em +2,000 engagements</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">⚡</div>
+                        <div class="feature-title">15-20 Minutos</div>
+                        <div class="feature-desc">Assessment rápido mas profundo</div>
+                    </div>
+                </div>
+
+                <p><strong>O que você receberá:</strong></p>
+                <p>• Top 3 consultores mais compatíveis com seu perfil<br>
+                • Score de compatibilidade (0-100) para cada recomendação<br>
+                • Explicação detalhada do porquê de cada match<br>
+                • Insights sobre seu estilo profissional</p>
+
+                <div class="navigation">
+                    <div></div>
+                    <button class="btn btn-primary" onclick="startAssessment()">Iniciar Assessment</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Cards -->
+        <div class="card" id="questionCard" style="display: none;">
+            <div id="questionsContainer"></div>
+            
+            <div class="navigation">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" style="display: none;">Anterior</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Próxima</button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="card" id="resultsCard" style="display: none;">
+            <div class="results-section">
+                <h2>Seu Perfil de Compatibilidade</h2>
+                
+                <div class="profile-summary">
+                    <h3>Resumo do Assessment</h3>
+                    <div id="dimensionScores"></div>
+                </div>
+
+                <div class="matching-status">
+                    <div class="loading-spinner"></div>
+                    <h3>Processando Compatibilidade...</h3>
+                    <p>Analisando 47 dimensões comportamentais contra nosso banco de dados de consultores especializados</p>
+                </div>
+
+                <div class="cta-section">
+                    <h3>Próximo Passo</h3>
+                    <p>Seu relatório detalhado de compatibilidade será enviado em até 24 horas</p>
+                    <p>Incluindo: Top 3 consultores recomendados + Score de compatibilidade + Justificativas detalhadas</p>
+                    <button class="btn btn-primary" style="background: #fff; color: #8c7853; margin-top: 10px;" onclick="alert('Funcionalidade de envio seria integrada aqui')">Receber Relatório por Email</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                dimension: "Estilo de Comunicação",
+                question: "Em reuniões de negócios, você prefere:",
+                description: "Esta dimensão ajuda a entender como você se comunica em contextos profissionais.",
+                type: "multiple",
+                options: [
+                    {
+                        title: "Comunicação direta e objetiva",
+                        desc: "Ir direto ao ponto, sem rodeios. Valorizo eficiência sobre diplomacia."
+                    },
+                    {
+                        title: "Comunicação contextual e nuanceada",
+                        desc: "Construir entendimento gradualmente, atentar para subtext e implicações."
+                    },
+                    {
+                        title: "Equilibrado conforme contexto",
+                        desc: "Adapto meu estilo dependendo da situação e interlocutor."
+                    }
+                ]
+            },
+            {
+                dimension: "Estilo de Comunicação",
+                question: "Como você lida com silêncios em conversações profissionais?",
+                type: "multiple",
+                options: [
+                    {
+                        title: "Confortável - uso estrategicamente",
+                        desc: "Silêncio é poderoso. Deixo espaço para reflexão e processamento."
+                    },
+                    {
+                        title: "Desconfortável - prefiro conversação contínua",
+                        desc: "Silêncios prolongados me deixam desconfortável, prefiro manter diálogo."
+                    },
+                    {
+                        title: "Depende do contexto cultural",
+                        desc: "Em algumas culturas valorizo, em outras evito."
+                    }
+                ]
+            },
+            {
+                dimension: "Contexto Cultural",
+                question: "Sua experiência prévia com ambientes multiculturais:",
+                type: "multiple",
+                options: [
+                    {
+                        title: "Extensiva - trabalho/vivo internacionalmente",
+                        desc: "Já operei em múltiplos países e culturas, me sinto fluente culturalmente."
+                    },
+                    {
+                        title: "Moderada - viagens e eventos ocasionais",
+                        desc: "Tenho alguma exposição mas ainda estou aprendendo nuances culturais."
+                    },
+                    {
+                        title: "Limitada - primariamente local",
+                        desc: "Pouca experiência direta, mas aberto a aprender."
+                    }
+                ]
+            },
+            {
+                dimension: "Contexto Cultural",
+                question: "Quando você encontra diferenças culturais inesperadas:",
+                type: "multiple",
+                options: [
+                    {
+                        title: "Me adapto rapidamente",
+                        desc: "Observo, aprendo e ajusto meu comportamento fluidamente."
+                    },
+                    {
+                        title: "Preciso de orientação explícita",
+                        desc: "Valorizo quando alguém me explica o que fazer/evitar."
+                    },
+                    {
+                        title: "Fico desconfortável",
+                        desc: "Ambiguidade cultural me tira da zona de conforto."
+                    }
+                ]
+            },
+            {
+                dimension: "Objetivos do Engajamento",
+                question: "O que você mais valoriza em um consultor?",
+                type: "multiple",
+                options: [
+                    {
+                        title: "Facilitação de networking estratégico",
+                        desc: "Conectar-me com pessoas certas no momento certo."
+                    },
+                    {
+                        title: "Contribuição intelectual substantiva",
+                        desc: "Adicionar valor real às conversações com expertise."
+                    },
+                    {
+                        title: "Navegação de protocolos culturais",
+                        desc: "Me guiar para evitar gaffes e demonstrar sofisticação."
+                    },
+                    {
+                        title: "Suporte operacional discreto",
+                        desc: "Facilitar logística e me deixar focado em conteúdo."
+                    }
+                ]
+            },
+            {
+                dimension: "Personalidade Profissional",
+                question: "Em eventos corporativos, você tende a ser:",
+                description: "Entender seu nível de energia social nos ajuda a identificar o estilo de suporte ideal.",
+                type: "scale",
+                leftLabel: "Introvertido",
+                rightLabel: "Extrovertido",
+                leftDesc: "Prefiro conversas profundas com poucos",
+                rightDesc: "Energizado por conhecer muitas pessoas"
+            },
+            {
+                dimension: "Personalidade Profissional",
+                question: "Sua preferência em ritmo de trabalho:",
+                type: "scale",
+                leftLabel: "Ponderado",
+                rightLabel: "Ágil",
+                leftDesc: "Análise cuidadosa antes de decisões",
+                rightDesc: "Decisões rápidas, ajusto no caminho"
+            },
+            {
+                dimension: "Ambiente do Evento",
+                question: "Qual tipo de evento você participará?",
+                type: "multiple",
+                options: [
+                    {
+                        title: "Conferência/convenção internacional",
+                        desc: "Grande evento com centenas de participantes, networking intenso."
+                    },
+                    {
+                        title: "Jantar de negócios formal",
+                        desc: "Pequeno grupo, contexto formal, potenciais parceiros/clientes."
+                    },
+                    {
+                        title: "Recepção/gala corporativa",
+                        desc: "Evento institucional, múltiplos stakeholders, representação importante."
+                    },
+                    {
+                        title: "Roadshow/série de reuniões",
+                        desc: "Múltiplos compromissos ao longo de dias, diferentes cidades."
+                    }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let answers = {};
+
+        function startAssessment() {
+            document.getElementById('introCard').style.display = 'none';
+            document.getElementById('questionCard').style.display = 'block';
+            renderQuestion();
+            updateProgress();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('questionsContainer');
+            
+            let html = `
+                <div class="question-section active">
+                    <span class="dimension-label">${q.dimension}</span>
+                    <div class="question-text">${q.question}</div>
+                    ${q.description ? `<div class="question-description">${q.description}</div>` : ''}
+            `;
+
+            if (q.type === 'multiple') {
+                html += '<div class="options">';
+                q.options.forEach((option, index) => {
+                    const selected = answers[currentQuestion] === index ? 'selected' : '';
+                    html += `
+                        <div class="option ${selected}" onclick="selectOption(${index})">
+                            <div class="option-radio"></div>
+                            <div class="option-content">
+                                <div class="option-title">${option.title}</div>
+                                <div class="option-desc">${option.desc}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            } else if (q.type === 'scale') {
+                html += `
+                    <div class="scale-container">
+                        <div class="scale">
+                `;
+                for (let i = 1; i <= 5; i++) {
+                    const selected = answers[currentQuestion] === i ? 'selected' : '';
+                    html += `<div class="scale-option ${selected}" onclick="selectScale(${i})">${i}</div>`;
+                }
+                html += `
+                        </div>
+                        <div class="scale-labels">
+                            <span>${q.leftLabel}<br><small>${q.leftDesc}</small></span>
+                            <span>${q.rightLabel}<br><small>${q.rightDesc}</small></span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+
+            // Update buttons
+            document.getElementById('prevBtn').style.display = currentQuestion > 0 ? 'block' : 'none';
+            document.getElementById('nextBtn').textContent = currentQuestion === questions.length - 1 ? 'Finalizar' : 'Próxima';
+            updateNextButton();
+        }
+
+        function selectOption(index) {
+            answers[currentQuestion] = index;
+            renderQuestion();
+            updateNextButton();
+        }
+
+        function selectScale(value) {
+            answers[currentQuestion] = value;
+            renderQuestion();
+            updateNextButton();
+        }
+
+        function updateNextButton() {
+            const btn = document.getElementById('nextBtn');
+            btn.disabled = answers[currentQuestion] === undefined;
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+                updateProgress();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+                updateProgress();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('questionCard').style.display = 'none';
+            document.getElementById('resultsCard').style.display = 'block';
+            
+            // Calculate dimension scores (simplified for demo)
+            const dimensions = {
+                "Comunicação": Math.floor(Math.random() * 30) + 70,
+                "Cultura": Math.floor(Math.random() * 30) + 70,
+                "Objetivos": Math.floor(Math.random() * 30) + 70,
+                "Personalidade": Math.floor(Math.random() * 30) + 70,
+                "Contexto": Math.floor(Math.random() * 30) + 70
+            };
+
+            let scoresHtml = '';
+            for (let [dim, score] of Object.entries(dimensions)) {
+                scoresHtml += `
+                    <div class="dimension-score">
+                        <div class="dimension-name">${dim}</div>
+                        <div class="dimension-value">${score}/100</div>
+                    </div>
+                `;
+            }
+            document.getElementById('dimensionScores').innerHTML = scoresHtml;
+
+            // Simulate matching process
+            setTimeout(() => {
+                document.querySelector('.matching-status').innerHTML = `
+                    <h3 style="color: #2f5d50; margin-bottom: 15px;">✓ Matching Completo</h3>
+                    <p style="color: #1a2332;">3 consultores altamente compatíveis identificados</p>
+                    <p style="color: #4a5568; font-size: 13px; margin-top: 15px;">
+                        Média de compatibilidade: 91/100<br>
+                        Tempo de processamento: 2.3 segundos
+                    </p>
+                `;
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

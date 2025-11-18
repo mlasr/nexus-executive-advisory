@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Inner Circle - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e17;
+            color: #e0e6ed;
+            overflow-x: hidden;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, #1a1f2e 0%, #0f1419 100%);
+            border-right: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 30px 20px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .logo h1 {
+            font-size: 18px;
+            color: #d4af37;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .logo p {
+            font-size: 10px;
+            color: #8a8f98;
+            margin-top: 5px;
+            letter-spacing: 2px;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #8a8f98;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(212, 175, 55, 0.1);
+            color: #d4af37;
+        }
+
+        .nav-icon {
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px 40px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .greeting h2 {
+            font-size: 28px;
+            font-weight: 300;
+            color: #e0e6ed;
+        }
+
+        .greeting p {
+            font-size: 14px;
+            color: #8a8f98;
+            margin-top: 5px;
+        }
+
+        .member-badge {
+            background: linear-gradient(135deg, #d4af37 0%, #8c7853 100%);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1a1f2e 0%, #151921 100%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #8a8f98;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 300;
+            color: #d4af37;
+            margin-bottom: 5px;
+        }
+
+        .stat-change {
+            font-size: 13px;
+            color: #4ade80;
+        }
+
+        .stat-change.negative {
+            color: #f87171;
+        }
+
+        /* Events Section */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 400;
+            color: #e0e6ed;
+        }
+
+        .view-all {
+            font-size: 13px;
+            color: #d4af37;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .view-all:hover {
+            opacity: 0.7;
+        }
+
+        .event-card {
+            background: linear-gradient(135deg, #1a1f2e 0%, #151921 100%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(180deg, #d4af37 0%, #8c7853 100%);
+        }
+
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .event-title {
+            font-size: 18px;
+            color: #e0e6ed;
+            margin-bottom: 5px;
+        }
+
+        .event-date {
+            font-size: 13px;
+            color: #8a8f98;
+        }
+
+        .relevance-badge {
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid #d4af37;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        .event-details {
+            margin: 15px 0;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #b8bcc4;
+        }
+
+        .detail-icon {
+            margin-right: 10px;
+            color: #d4af37;
+        }
+
+        .event-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #8c7853 100%);
+            color: #0a0e17;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: #d4af37;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        /* Recommendations */
+        .recommendation-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(140, 120, 83, 0.05) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+        }
+
+        .rec-priority {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .rec-priority.urgent {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .rec-priority.important {
+            background: #f59e0b;
+            color: #fff;
+        }
+
+        .rec-title {
+            font-size: 17px;
+            color: #e0e6ed;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .rec-description {
+            font-size: 14px;
+            color: #b8bcc4;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .rec-action {
+            font-size: 13px;
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        /* Loading Animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading {
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>NEXUS</h1>
+                <p>INNER CIRCLE</p>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <span class="nav-icon">📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">📅</span>
+                            Event Intelligence
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">🤝</span>
+                            Network Analytics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">💡</span>
+                            Recommendations
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">👥</span>
+                            Consultant Matching
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">📁</span>
+                            Relationship Intel
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">⚙️</span>
+                            Settings
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="greeting">
+                    <h2>Welcome back, Alexandre</h2>
+                    <p>Last login: Today at 8:42 AM</p>
+                </div>
+                <div class="member-badge">CIRCLE ELITE</div>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Network Quality Score</div>
+                    <div class="stat-value">8,245</div>
+                    <div class="stat-change">+1,823 this quarter</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Tier 1 Relationships</div>
+                    <div class="stat-value">47</div>
+                    <div class="stat-change">+12 this quarter</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Active Opportunities</div>
+                    <div class="stat-value">8</div>
+                    <div class="stat-change">3 closing this month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">ROI This Year</div>
+                    <div class="stat-value">347%</div>
+                    <div class="stat-change">vs. membership investment</div>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="section-header">
+                    <h3 class="section-title">Strategic Recommendations</h3>
+                    <a href="#" class="view-all">View All →</a>
+                </div>
+
+                <div class="recommendation-card">
+                    <span class="rec-priority urgent">🔴 URGENT</span>
+                    <h4 class="rec-title">Alex Chen (Sequoia) is in São Paulo Nov 22-24</h4>
+                    <p class="rec-description">
+                        You met Alex briefly at TechCrunch in May. He expressed interest in your space. 
+                        His firm just announced $500M fund focused on B2B SaaS in LatAm — perfect timing.
+                    </p>
+                    <p class="rec-action">→ Request coffee meeting via Maria Silva (mutual connection)</p>
+                    <div class="event-actions">
+                        <button class="btn btn-primary">Request Introduction</button>
+                        <button class="btn btn-secondary">Schedule Prep Call</button>
+                    </div>
+                </div>
+
+                <div class="recommendation-card">
+                    <span class="rec-priority important">🟡 IMPORTANT</span>
+                    <h4 class="rec-title">Deepen relationship with Dr. Schmidt (Siemens)</h4>
+                    <p class="rec-description">
+                        You met Dr. Schmidt 3x this year but relationship hasn't deepened (score: 4/10). 
+                        Intelligence suggests Siemens is evaluating solutions in your category.
+                    </p>
+                    <p class="rec-action">→ Invite to exclusive dinner with 2 other CTOs (intimate setting optimal)</p>
+                    <div class="event-actions">
+                        <button class="btn btn-primary">Plan Dinner</button>
+                        <button class="btn btn-secondary">Get Case Study</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-header">
+                    <h3 class="section-title">Upcoming High-Value Events</h3>
+                    <a href="#" class="view-all">View Calendar →</a>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-header">
+                        <div>
+                            <h4 class="event-title">WEB SUMMIT LISBON</h4>
+                            <p class="event-date">November 11-14, 2025</p>
+                        </div>
+                        <span class="relevance-badge">94% Relevant</span>
+                    </div>
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">✓</span>
+                            <span>150+ VCs matching your thesis (B2B SaaS)</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">✓</span>
+                            <span>40 potential customers identified</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">✓</span>
+                            <span>12 people from your target network confirmed</span>
+                        </div>
+                    </div>
+                    <p class="event-date"><strong>Recommended consultant:</strong> NCE-082 (Tech specialist, 96% match)</p>
+                    <div class="event-actions">
+                        <button class="btn btn-primary">Activate Curation</button>
+                        <button class="btn btn-secondary">View Details</button>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-header">
+                        <div>
+                            <h4 class="event-title">DAVOS - WORLD ECONOMIC FORUM</h4>
+                            <p class="event-date">January 20-24, 2026</p>
+                        </div>
+                        <span class="relevance-badge">87% Relevant</span>
+                    </div>
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">✓</span>
+                            <span>Theme: Sustainable Finance (your sector)</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">✓</span>
+                            <span>25 heads of state from markets where you operate</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">⚠️</span>
+                            <span>Invitation required — Nexus can facilitate intro via 3 confirmed members</span>
+                        </div>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn btn-primary">Request Introduction</button>
+                        <button class="btn btn-secondary">Monitor</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
